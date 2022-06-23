@@ -92,7 +92,7 @@ async def delete_favorite(
     Delete product from favorite table.
     """
     #an exeption if favorite does not exist
-    favorite = crud.favorite.get_with_product_and_user(db=db, user_id=current_user.id, id=product_id)
+    favorite = crud.favorite.get_with_product_and_user(db=db, user_id=current_user.id, product_id=product_id)
     if not favorite:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
