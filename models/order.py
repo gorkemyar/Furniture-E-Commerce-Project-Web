@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Enum, ForeignKey, DateTime, String, Boolean
+from sqlalchemy import Column, Integer, Enum, ForeignKey, DateTime, String, Boolean, Float
 from sqlalchemy.orm import relationship
 from db.base_class import Base
 import enum
@@ -47,6 +47,7 @@ class OrderItem(Base):
 
     order_status = Column(Enum(OrderStatusEnum))
     quantity = Column(Integer)
+    price= Column(Float)
     refund = relationship("RefundOrder", back_populates="orderitem", uselist=False)
 
 

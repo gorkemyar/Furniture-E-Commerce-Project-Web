@@ -4,8 +4,10 @@ from sqlalchemy.orm import Session
 
 from core.security import get_password_hash, verify_password
 from crud.base import CRUDBase
+from models.order import RefundOrder
 from models.user import User
 import schemas
+from schemas.order import Order
 from schemas.response import Response
 from schemas.user import ChangePasswordIn, UserCreate, UserUpdate
 from fastapi import status, HTTPException
@@ -97,6 +99,17 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
                     #it may be a bad idea to put an exeption here since it would stop the discount in its tracks
         utilities.sendMail.send_mail(current_user.email, subject, message)
         return Response(message="Mail sent successfully.")
+    def refund_request_check(self, current_user:User, db: Session):
+        user_id=current_user.id
+        order_list=[]
+        check_if_exists= db.query(Order).filter(Order.user_id == user_id).first()
+        
+        if not check_if_exists:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                    detail={"message": f"User has no orders"})
+        for order_ in check_if_exists:
+            order_list.append(order_.order_details.id)
+        return db.query(RefundOrder).filter(RefundOrder.orderitem_id in order_list)
 
 
 user = CRUDUser(User)

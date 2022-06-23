@@ -59,7 +59,8 @@ class CRUDOrder(CRUDBase[Order, OrderShoppingCart, OrderShoppingCart]):
                 order_id=new_order.id,
                 product_id=item.product_id,
                 quantity=item.quantity,
-            )
+                price = item.product.price if item.product.discount is None else item.product.price - item.product.price * item.product.discount / 100
+                )
             db.add(orderitem)
             crud.product.decrease_stock(
                 db=db, product_id=item.product_id, quantity=item.quantity
@@ -105,6 +106,7 @@ class CRUDOrder(CRUDBase[Order, OrderShoppingCart, OrderShoppingCart]):
         db_obj = models.RefundOrder(**obj_in_data)  # type: ignore
         db.add(db_obj)
         db.commit()
+        
 
     def change_refund_status(self, db: Session, id: int, value: bool):
         order_item = self.get_order_item(db, id)
@@ -115,6 +117,10 @@ class CRUDOrder(CRUDBase[Order, OrderShoppingCart, OrderShoppingCart]):
         product = db.query(Product).filter(Product.id == order_item.product_id).first()
         product.stock += order_item.quantity
         order_item.order_status = "REFUNDED"
+        order_itself=db.query(Order).filter(Order.id==order_item.order_id).first()
+        utilities.sendMail.send_mail(
+            order_itself.user.email, "A refund request has been accepted", "The were returned "+str(order_item.price)+"$ for your refunding of the product "+str(order_item.product.title)+"."
+        )
         db.add(product)
         db.add(refundorder)
         db.add(order_item)

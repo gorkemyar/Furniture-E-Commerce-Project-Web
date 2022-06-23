@@ -12,6 +12,7 @@ class OrderItem(BaseModel):
     product: Product
     quantity: int
     order_status: OrderStatusEnum
+    price: float
 
     class Config:
         orm_mode = True
