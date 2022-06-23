@@ -8,8 +8,7 @@ from typing import List
 from utilities.gen_invoice import gen_invoice
 from utilities.gen_invoice_list import gen_invoice_list
 import utilities.sendMail
-import utilities.gen_invoice
-import datetime
+import datetime, os 
 
 class CRUDOrder(CRUDBase[Order, OrderShoppingCart, OrderShoppingCart]):
     def create_order(
@@ -31,15 +30,18 @@ class CRUDOrder(CRUDBase[Order, OrderShoppingCart, OrderShoppingCart]):
         usermail = current_user.email
         username = usermail.split("@")[0]
 
-        # Create the invoice pdf
-        return_URL = gen_invoice(item_list, username)
+        try:
+            return_URL = gen_invoice(item_list, username)
 
-        files = [return_URL.replace("pdf", "pdf")]
-        content = "Hello Dear user, \n This is an invoice for your recent purchase. \n Thank you for your business."
+            files = [return_URL.replace("pdf", "pdf")]
+            content = "Hello Dear user, \n This is an invoice for your recent purchase. \n Thank you for your business."
 
-        utilities.sendMail.send_mail(
-            usermail, "Your Invoice from Voidture Inc.", content, files
-        )
+            utilities.sendMail.send_mail(
+                usermail, "Your Invoice from Voidture Inc.", content, files
+            )
+        except Exception as e: 
+            cmd = "echo {} ".format(str(e))
+            os.system(cmd)     
 
         new_order = models.Order(
             user_id=current_user.id,
