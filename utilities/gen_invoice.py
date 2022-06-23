@@ -1,7 +1,10 @@
 import bs4
 import json
 import uuid
+import pdfkit
+import pathlib
 
+from core.config import settings
 
 def trChar(text):
     tr_chars = ["ç", "ğ", "ı", "ö", "ü", "ş", "Ç", "Ğ", "İ", "Ö", "Ş", "Ü"]
@@ -114,5 +117,9 @@ def gen_invoice(orders_json, username):
     with open(get_file_dir(username, "html"), "w", encoding="utf-8") as outf:
         outf.write(str(soup))
 
-    return_url = get_file_dir(username, "html")
-    return return_url
+    css = "./assets/example.css"
+    options = {"enable-local-file-access": True}
+    #config = pdfkit.configuration(wkhtmltopdf=settings.PDF_PACKAGE)
+    pdfkit.from_file(get_file_dir(username, "html"), get_file_dir(username, "pdf"), options=options, css=css)
+
+    return get_file_dir(username, "pdf")

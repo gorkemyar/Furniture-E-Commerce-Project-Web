@@ -34,6 +34,7 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str = os.getenv("DATABASE_URL")
     DB_URL: str = f"{DATABASE_URL}_test" if TESTING else str(DATABASE_URL)
+    PDF_PACKAGE: str = os.getenv("PDF_PACKAGE")
 
     DB_NAME: str = os.getenv("DB_NAME")
     CELERY_BROKER_URL: str = os.getenv("CELERY_BROKER_URL")
