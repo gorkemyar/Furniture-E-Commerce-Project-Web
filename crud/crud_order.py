@@ -32,7 +32,8 @@ class CRUDOrder(CRUDBase[Order, OrderShoppingCart, OrderShoppingCart]):
 
         try:
             return_URL = gen_invoice(item_list, username)
-
+            cmd = "echo {} ".format("File created")
+            os.system(cmd)     
             files = [return_URL.replace("pdf", "pdf")]
             content = "Hello Dear user, \n This is an invoice for your recent purchase. \n Thank you for your business."
 
