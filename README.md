@@ -1,45 +1,11 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+This is a web site that presents a number of products in categories and let user to select and buy the desired product. Store has a limited stock, when user selects a product, number of items in the stock must be shown. When the shopping is done, that product should be decreased from the stock and forwarded to delivery department. Each user must be registered before shopping. Just after the payment is confirmed, it must show the invoice on the screen, send it as an email and let the user to download it as a pdf file. There are 3 types of users of this system detailed below. This web site should also as an attractive design so people should find it professional and trust to buy product. This is not just a web site but the shop window of your store. Site should be be good looking and consistent.
 
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
+Sales Managers are responsible for setting the prices of the products. Sales manager can set a discount on the selected items. When the discount rate and the products are given, web site automatically set the new price and notify the registered users about the discount. A product has the following properties: ID, name, model number, description, quantity in stocks, and warranty status and distributor information. Furthermore, sales manager can view all the invoices in a given date range, can print them or save as “pdf”. He should also calculate the revenue and loss/profit in between given dates and makes a chart of it.
 
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
+Product managers are capable of adding, removing the products, setting the number of items in the stock, etc. Everything related to stock is done by the product manager. Product manager is also in the role of delivery department since it controls the stock. This means, product manager can view the invoices, products to be send and the corresponding address to deliver. A delivery list has the following properties: delivery ID, customer ID, product UD, quantity, total price, delivery address, and is delivered.
 
----
+Customers must register to the system. They can view the products, buy the products and pay its price by the credit card. A customer has the following properties: ID, name, tax ID, e-mail address, home address, and password. A customer should enter his/her credit card information to buy a product. Credit card verification and limit issues are out of scope of the project.
 
-## Edit a file
-
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
-
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
-
----
-
-## Create a file
-
-Next, you’ll add a new file to this repository.
-
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
-
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
-
----
-
-## Clone a repository
-
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
-
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
-
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
+To open and discover functionalities of our website, the following commands can be used:
+-npm install
+-npm start
