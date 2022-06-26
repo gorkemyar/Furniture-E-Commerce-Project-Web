@@ -78,7 +78,7 @@ export default function AddressListForm(props) {
                     label={
                       <AddressListGetOld
                         title={address["payment_method"]}
-                        description={address["card_number"]}
+                        description={address["cardnumber"]}
                         postal_code={address["card_name"]}
                         province={address["CW"]}
                         city={address["expiry_date"]}

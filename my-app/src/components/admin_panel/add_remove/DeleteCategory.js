@@ -14,45 +14,68 @@ import AdminPanelContainer from "../AdminPanel";
 import { useState } from "react";
 import axios from "axios";
 import { getCookie } from "../../recoils/atoms";
-
+import { useEffect } from "react";
+import AddProductDropDown from "./AddProductDropDown";
 const access = getCookie("access_token");
 const DeleteCategories = (props) => {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [value, setValue] = React.useState(3);
-  const addNewCategory = (event) => {
+  const [categoryList, setDataCategory] = useState([]);
+  const [isLoadedCategory, setIsLoadedCategory] = useState(false);
+  const [categoryId, setCategoryId] = useState(-1);
+  const [categoryName, setCategoryName] = useState("");
+
+  const getDataCategory = async () => {
+    const { data } = await axios({
+      method: "get",
+      url: "http://164.92.208.145/api/v1/categories/?skip=0&limit=100",
+      withCredentials: false,
+    });
+
+    setDataCategory(data.data);
+    console.log(data.data);
+    setIsLoadedCategory(true);
+  };
+  useEffect(() => {
+    getDataCategory(categoryId);
+  }, [categoryId]);
+
+  const handleCategoryName = (selectedCategoryId) => {
+    console.log("selected category ", selectedCategoryId);
+    setCategoryId(selectedCategoryId);
+    console.log("catlist:", categoryList);
+    // set the subcategory name by getting it from the subcategory list where the id is the same as the selected subcategory id
+    setCategoryName(
+      categoryList.find((category) => category.id === selectedCategoryId).title
+    );
+    console.log("catname:", categoryName);
+  };
+
+  const deleteCategory = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const newCat = data.get("catName");
-    //console.log(newComment);
+
+    let headersList = {
+      Authorization: `Bearer ${access}`,
+      "Content-Type": "multipart/form-data",
+    };
+    let bodyContent = "";
+    let reqOptions = {
+      url: `http://164.92.208.145/api/v1/categories/${categoryId}`,
+      method: "DELETE",
+      headers: headersList,
+      data: bodyContent,
+    };
+
     axios
-      .post(
-        `http://164.92.208.145/api/v1/products/${props.id}/comment`,
-        {
-          content: newCat,
-          rate: value,
-        },
-        {
-          headers: {
-            Accept: "*/*",
-            Authorization: `Bearer ${access}`,
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        console.log(newCat);
+      .request(reqOptions)
+      .then(function (response) {
+        console.log(response.data);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((res) => {
+        console.log(res);
       });
   };
+
   const deleteCategoryWidget = (
-    <Card>
-      <Box sx={{ m: 2 }} />
-      <Typography sx={{ fontSize: 20 }} pl={2}>
-        Delete Category
-      </Typography>
-      <Box sx={{ m: 2 }} />
+    <Stack direction="column">
       <Box
         sx={{
           display: "flex",
@@ -60,18 +83,28 @@ const DeleteCategories = (props) => {
           alignItems: "center",
         }}
         component="form"
-        onSubmit={addNewCategory}
+        onSubmit={deleteCategory}
         noValidate
       >
-        <Grid container justifyContent="center">
-          <TextField
-            id="catName"
-            label="Enter the Category Name to be Deleted"
-            name="catName"
-            fullWidth
-            sx={{ padding: (1, 1, 1, 1) }}
-          />
-        </Grid>
+        <Card sx={{ marginTop: 15 }}>
+          <Typography sx={{ fontSize: 20 }} pl={2}>
+            Delete Category
+          </Typography>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <AddProductDropDown
+              handleCategoryName={handleCategoryName}
+              dataList={isLoadedCategory ? categoryList : []}
+              defaultValue={"Select Category"}
+            ></AddProductDropDown>
+          </Box>
+        </Card>
 
         <Box
           m={1}
@@ -95,12 +128,12 @@ const DeleteCategories = (props) => {
           </Button>
         </Box>
       </Box>
-    </Card>
+    </Stack>
   );
 
   return (
     <AdminPanelContainer
-      pageIndex={1}
+      pageIndex={2}
       widget={deleteCategoryWidget}
     ></AdminPanelContainer>
   );

@@ -3,6 +3,7 @@
  */
 // hello.test.js
 import React from "react";
+import "babel-polyfill";
 import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
 
@@ -38,3 +39,5 @@ it("Application renders without error", () => {
   });
   expect(container.textContent).toBe("Hello, Margaret!");
 });
+
+// ok

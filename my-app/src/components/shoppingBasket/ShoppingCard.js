@@ -182,7 +182,9 @@ const ShoppingCard = (props) => {
               color="text.secondary"
               sx={{ fontSize: 12 }}
             >
-              {(props.cost * props.count).toFixed(2)}
+              {(props.cost - (props.cost * props.discount ?? 0) / 100) *
+                props.count.toFixed(2)}
+              $
             </Typography>
           </Stack>
 

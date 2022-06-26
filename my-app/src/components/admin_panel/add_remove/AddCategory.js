@@ -19,28 +19,30 @@ const access = getCookie("access_token");
 const AddCategories = (props) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [value, setValue] = React.useState(3);
-  const addNewCategory = (event) => {
+  const addNewCategory = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const newCat = data.get("catName");
-    //console.log(newComment);
-    axios
+    const newCatImage = data.get("myImage");
+    console.log(newCatImage);
+    let headersList = {
+      Authorization: `Bearer ${access}`,
+      "Content-Type": "multipart/form-data",
+    };
+    var formData = new FormData();
+    formData.append("image", newCatImage);
+
+    await axios
       .post(
-        `http://164.92.208.145/api/v1/products/${props.id}/comment`,
+        `http://164.92.208.145/api/v1/categories/?title=${newCat}&order_id=0`,
+        formData,
         {
-          content: newCat,
-          rate: value,
-        },
-        {
-          headers: {
-            Accept: "*/*",
-            Authorization: `Bearer ${access}`,
-          },
+          headers: headersList,
         }
       )
-      .then((res) => {
-        console.log(res);
-        console.log(newCat);
+      .then((response) => {
+        console.log("response", response);
+        //props.adderHandler(response.data.data.id);
       })
       .catch((err) => {
         console.log(err);
@@ -90,7 +92,6 @@ const AddCategories = (props) => {
             type="file"
             name="myImage"
             onChange={(event) => {
-              console.log(event.target.files[0]);
               setSelectedImage(event.target.files[0]);
             }}
           />

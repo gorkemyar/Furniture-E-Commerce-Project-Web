@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import html2pdf from "html2pdf.js";
+import { Button } from "@mui/material";
 const Card = (props) => {
   return (
     <div>
@@ -37,7 +38,18 @@ const Dummy = () => {
     <Card key={item.id} title={item.id} description={item.body}></Card>
   ));
   */
-  return <h1>Welcome to Dummy Page</h1>;
+
+  return <div><h1>Welcome to Dummy Page</h1>
+  <Button
+  onClick={() => {
+    var element = document.getElementById('element-to-print');
+    html2pdf(element);
+    console.log(element)
+  }}
+  >gET PDF</Button>
+
+  <div id="element-to-print"> hellooooo</div>
+  </div>;
 };
 
 export default Dummy;

@@ -20,7 +20,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { ThemeProvider } from "@mui/private-theming";
-import theme from "../theme";
+import theme from "../style/theme";
 
 const pages = [
   "Living Room",

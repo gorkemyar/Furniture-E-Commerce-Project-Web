@@ -12,9 +12,10 @@ const OrderPage = () => {
   useEffect(() => {
     getData(`http://164.92.208.145/api/v1/users/orders`)
       .then((res) => {
+        console.log("Order response", res.data);
+
         setData(res.data);
         setLoaded(true);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);

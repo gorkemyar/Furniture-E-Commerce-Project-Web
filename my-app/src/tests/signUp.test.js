@@ -32,3 +32,6 @@ it("Sign Up Page renders correctly", () => {
   expect(container.textContent).toMatch(/Password/);
   expect(container.textContent).toMatch(/Sign in/);
 });
+
+
+// ok

@@ -19,6 +19,7 @@ const access = getCookie("access_token");
 export default function PaymentSummary(props) {
   let totalCost1 = Number(getCookie("totalCost"));
   const creditId = useRecoilValue(creditCardId);
+  let discountTotal = Number(getCookie("discount"));
   const navigate = useNavigate();
   const handleOnClick = useCallback(
     () => navigate(`/payment-success`),
@@ -102,7 +103,7 @@ export default function PaymentSummary(props) {
                 fontWeight="bold"
                 sx={{ fontSize: 16 }}
               >
-                {totalCost1}$
+                {totalCost1 + discountTotal}$
               </Typography>
             </Stack>
             <Box sx={{ m: 1 }} />
@@ -113,7 +114,7 @@ export default function PaymentSummary(props) {
                 color="text.secondary"
                 sx={{ fontSize: 16 }}
               >
-                Delivery Fee
+                Discount Total
               </Typography>
               <Box sx={{ m: 2 }} />
               <Typography
@@ -123,7 +124,7 @@ export default function PaymentSummary(props) {
                 fontWeight="bold"
                 sx={{ fontSize: 16 }}
               >
-                10$
+                -{discountTotal}$
               </Typography>
             </Stack>
             <Divider />
@@ -145,7 +146,7 @@ export default function PaymentSummary(props) {
                 fontWeight="bold"
                 sx={{ fontSize: 16 }}
               >
-                {totalCost1 + 10}$
+                {totalCost1}$
               </Typography>
             </Stack>
           </Card>

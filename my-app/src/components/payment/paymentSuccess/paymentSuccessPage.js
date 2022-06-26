@@ -15,8 +15,6 @@ import { useCallback } from "react";
 const PaymentSuccessPage = () => {
   const navigate = useNavigate();
 
-  const handleOnClick = useCallback(() => navigate("/Export"), [navigate]);
-
   return (
     <ThemeProvider theme={themeOptions}>
       <CssBaseline />
@@ -57,20 +55,6 @@ const PaymentSuccessPage = () => {
             You will be receiving a confirmation email with order details. You
             can download your invoice to see the order details.
           </Typography>
-
-          <Button
-            variant="contained"
-            onClick={handleOnClick}
-            sx={{
-              backgroundColor: themeOptions.palette.primary.light,
-              display: "block",
-              padding: (8, 1, 8, 1),
-              mb: 2,
-              justify: "center",
-            }}
-          >
-            <Typography sx={{ color: "white" }}>Get Invoice</Typography>
-          </Button>
 
           <Link
             to="/"

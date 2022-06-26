@@ -41,15 +41,24 @@ const SignIn = () => {
           },
         }
       )
-      .then(function (response) {
+      .then(async (response) => {
         let myDate = new Date();
         let expiration = addHoursToDate(myDate, 60);
         document.cookie = `isLogged=${true}; expires=${expiration}`;
         document.cookie = `name=${data.get("email")}; expires=${expiration}`;
         document.cookie = `access_token=${response.data.access_token}; expires=${expiration}`;
-
+        await axios
+          .get("http://164.92.208.145/api/v1/users/", {
+            headers: {
+              Accept: "*/*",
+              Authorization: `Bearer ${response.data.access_token}`,
+            },
+          })
+          .then((userResponse) => {
+            document.cookie = `user_type=${userResponse.data.data.user_type}; expires=${expiration}`;
+            window.location.href = "http://localhost:3000";
+          });
         //window.location.reload();
-        window.location.href = "http://localhost:3000";
       })
       .catch(function (error) {
         console.log(error);

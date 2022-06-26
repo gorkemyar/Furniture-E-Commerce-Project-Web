@@ -4,7 +4,6 @@ import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-
 import SignIn from "./components/signIn/SignIn";
 import ResetPassword from "./components/signIn/resetPassword";
 import SignUp from "./components/signIn/SignUp";
@@ -25,10 +24,17 @@ import PaymentSuccessPage from "./components/payment/paymentSuccess/paymentSucce
 import { RecoilRoot } from "recoil";
 import SearchPage from "./components/search/searchPage";
 import Export from "./components/invoicePdf/Invoice";
-import Dashboard from "./components/admin_panel/Dashboard";
 import Admin from "./components/admin_panel/AdminPanel";
 import AddCategories from "./components/admin_panel/add_remove/AddCategory";
 import DeleteCategories from "./components/admin_panel/add_remove/DeleteCategory";
+import AddProduct from "./components/admin_panel/add_remove/AddProduct";
+import SalesManagerPanel from "./components/sales_manager/SalesManager";
+import AddSubCategory from "./components/admin_panel/add_remove/AddSubCategory";
+import Refund from "./components/sales_manager/Refund";
+import InvoiceSalesManager from "./components/sales_manager/invoiceSalesManager"; 
+import Delivery from "./components/admin_panel/delivery/Delivery";
+import MainChart from "./components/sales_manager/chart/MainChart";
+
 ReactDOM.render(
   <RecoilRoot>
     <BrowserRouter>
@@ -55,7 +61,14 @@ ReactDOM.render(
         <Route path="/" element={<App />}></Route>
         <Route path="/admin-panel" element={<Admin />}></Route>
         <Route path="/addCategories" element={<AddCategories />}></Route>
+        <Route path="/addSubcategories" element={<AddSubCategory />}></Route>
         <Route path="/deleteCategories" element={<DeleteCategories />}></Route>
+        <Route path="/addProduct" element={<AddProduct />}></Route>
+        <Route path="/changeDelivery" element={<Delivery />}></Route>
+        <Route path="/salesManager" element={<SalesManagerPanel />}></Route>
+        <Route path="/chart" element={<MainChart />}></Route>
+        <Route path="/refund" element={<Refund />}></Route>
+        <Route path="/view_invoice_sales_manager" element={<InvoiceSalesManager />}></Route>
       </Routes>
     </BrowserRouter>
   </RecoilRoot>,

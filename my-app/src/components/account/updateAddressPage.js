@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from "react";
 import ProfilePageContainer from "./profilePageContainer";
-import AddressListForm from "../payment/addressList/addressListForm";
 import AddressListGetOld from "../payment/addressList/addressListGetOld";
-import { Box } from "@mui/system";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import AddressListAddNew from "../payment/addressList/addressListAddNew";
 import { getCookie } from "../recoils/atoms";
-import axios from "axios";
 import { getData } from "../recoils/getterFunctions";
 
 const access = getCookie("access_token");

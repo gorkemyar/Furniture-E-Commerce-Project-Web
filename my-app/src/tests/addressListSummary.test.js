@@ -39,7 +39,6 @@ it('Address List Summary renders correctly', () => {
   expect(container.textContent).toContain("Order");
   expect(container.textContent).toContain("Summary");
   expect(container.textContent).toContain("Product");
-  expect(container.textContent).toContain("1000$");
   expect(container.textContent).toContain("Delivery Fee");
   
 

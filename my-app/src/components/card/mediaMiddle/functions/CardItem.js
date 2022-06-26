@@ -8,7 +8,7 @@ import CardActions from "@mui/material/CardActions";
 import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+
 import { useState, useEffect } from "react";
 import themeOptions from "../../../style/theme";
 import { ThemeProvider } from "@emotion/react";
@@ -118,9 +118,7 @@ const CardItem = (props) => {
       console.log(getCookie("orderList"));
     }
   };
-  const addFavourite = () => {
-    console.log("added to favourite");
-  };
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -180,11 +178,6 @@ const CardItem = (props) => {
                 }}
               >
                 <ShoppingBasketOutlinedIcon />
-              </IconButton>
-            </CardActions>
-            <CardActions>
-              <IconButton aria-label="add to favorites" onClick={addFavourite}>
-                <FavoriteIcon />
               </IconButton>
             </CardActions>
           </Stack>

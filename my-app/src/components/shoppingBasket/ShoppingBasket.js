@@ -368,14 +368,18 @@ const ShoppingBasket = () => {
     setLogChange1(-1);
   }, [logChange1]);
   let totalCost1 = 0;
-
+  let totalDiscount = 0;
   products.map((card) => {
     let count = isLoggin ? card.quantity : mydict[card.id];
     let cost1 = isLoggin ? card.product.price : card.price;
-    totalCost1 += count * cost1;
+    let discount = isLoggin ? card.product.discount : card.discount;
+    totalDiscount += count * ((cost1 * discount) / 100);
+    totalCost1 += count * (cost1 - (cost1 * discount) / 100);
   });
-  setTCost(totalCost1);
+
   document.cookie = `totalCost=${totalCost1};path=/`;
+  document.cookie = `discount=${totalDiscount};path=/`;
+  setTCost(totalCost1);
 
   return (
     <RecoilRoot>
@@ -403,6 +407,7 @@ const ShoppingBasket = () => {
                               ? card.photos[0].photo_url
                               : ""
                           }
+                          discount={card.discount}
                           model={card.model}
                           number={card.number}
                           cost={card.price}
@@ -432,6 +437,7 @@ const ShoppingBasket = () => {
                               ? card.product.photos[0].photo_url
                               : ""
                           }
+                          discount={card.product.discount ?? 0}
                           model={card.product.model}
                           number={card.product.number}
                           cost={card.product.price}
@@ -513,7 +519,7 @@ const ShoppingBasket = () => {
                       fontWeight="bold"
                       sx={{ fontSize: 16 }}
                     >
-                      {tCost}$
+                      {tCost + totalDiscount}$
                     </Typography>
                   </Stack>
                   <Box sx={{ m: 1 }} />
@@ -524,7 +530,7 @@ const ShoppingBasket = () => {
                       color="text.secondary"
                       sx={{ fontSize: 16 }}
                     >
-                      Delivery Fee
+                      Discount Total
                     </Typography>
                     <Box sx={{ m: 2 }} />
                     <Typography
@@ -534,7 +540,7 @@ const ShoppingBasket = () => {
                       fontWeight="bold"
                       sx={{ fontSize: 16 }}
                     >
-                      10$
+                      -{totalDiscount}$
                     </Typography>
                   </Stack>
                   <Divider />
@@ -556,7 +562,7 @@ const ShoppingBasket = () => {
                       fontWeight="bold"
                       sx={{ fontSize: 16 }}
                     >
-                      {tCost + 10}$
+                      {tCost}$
                     </Typography>
                   </Stack>
                 </Card>

@@ -26,7 +26,9 @@ import {
   useRecoilState,
   useRecoilValue,
 } from "recoil";
-
+import { getCookie } from "../recoils/atoms";
+import PreventerPage from "./PreventerPage";
+const user_type = getCookie("user_type");
 const AdminPanelContainer = (props) => {
   const pageIndex = props.pageIndex;
 
@@ -34,13 +36,10 @@ const AdminPanelContainer = (props) => {
 
   const columnItems = [
     ["Add Categories", "../addCategories"],
+    ["Add Subcategories", "../addSubcategories"],
     ["Delete Categories", "../deleteCategories"],
-    ["Add Products", "../addProducts"],
-    ["Delete Products", "../coupons"],
-
-    ["Manage Stocks", "../update-payment"],
-    ["View Invoices", "../update-favorites"],
-    ["View Delivery", "../update-favorites"],
+    ["Add Product", "../addProduct"],
+    ["Change Delivery", "../changeDelivery"],
   ];
 
   const handleOnClickList = columnItems.map((item) => {
@@ -51,83 +50,90 @@ const AdminPanelContainer = (props) => {
 
   return (
     <RecoilRoot>
-      <ThemeProvider theme={themeOptions}>
-        <CssBaseline />
-        <PrimarySearchAppBar></PrimarySearchAppBar>
-        <ResponsiveAppBar></ResponsiveAppBar>
-        <Box sx={{ m: 2 }} />
-        <Box sx={{ m: 1 }} />
-        <Container maxWidth="none" sx={{ backgroundColor: "white" }}>
-          <Grid container spacing={2}>
-            <Grid item key={2} xs={3}>
-              <Box
-                sx={{
-                  backgroundColor: themeOptions.palette.secondary.light,
-                  overflow: "auto",
-
-                  pl: 2,
-                  pr: 2,
-                  pb: 0,
-                  mb: 0,
-                }}
-              >
+      {user_type != "PRODUCT_MANAGER" ? (
+        <PreventerPage />
+      ) : (
+        <ThemeProvider theme={themeOptions}>
+          (
+          <CssBaseline />
+          <PrimarySearchAppBar></PrimarySearchAppBar>
+          <ResponsiveAppBar></ResponsiveAppBar>
+          <Box sx={{ m: 2 }} />
+          <Box sx={{ m: 1 }} />
+          <Container maxWidth="none" sx={{ backgroundColor: "white" }}>
+            <Grid container spacing={2}>
+              <Grid item key={2} xs={3}>
                 <Box
                   sx={{
-                    "& > legend": { mt: 2 },
+                    backgroundColor: themeOptions.palette.secondary.light,
+                    overflow: "auto",
+
+                    pl: 2,
+                    pr: 2,
+                    pb: 0,
+                    mb: 0,
                   }}
                 >
-                  <Typography variant="h4" align="center" sx={{ p: 2 }}>
-                    Admin Panel
-                  </Typography>
+                  <Box
+                    sx={{
+                      "& > legend": { mt: 2 },
+                    }}
+                  >
+                    <Typography variant="h4" align="center" sx={{ p: 2 }}>
+                      Admin Panel
+                    </Typography>
 
-                  <nav aria-label="category-items">
-                    <List>
-                      {columnItems.map((item, index) => (
-                        <ListItem
-                          key={item[1]}
-                          divider
-                          sx={{
-                            bgcolor:
-                              pageIndex === index
-                                ? themeOptions.palette.white.main
-                                : themeOptions.palette.secondary.light,
-                            color: themeOptions.palette.black.main,
-                          }}
-                        >
-                          {pageIndex === index ? (
-                            <ListItemButton sx={{ pr: 0 }}>
-                              <ListItemText primary={item[0]} />
-                              <ListItemIcon>
-                                <ArrowForwardIosIcon fontSize="small"></ArrowForwardIosIcon>
-                              </ListItemIcon>
-                            </ListItemButton>
-                          ) : (
-                            <ListItemButton onClick={handleOnClickList[index]}>
-                              <ListItemText primary={item[0]} />
-                            </ListItemButton>
-                          )}
-                        </ListItem>
-                      ))}
-                    </List>
-                  </nav>
+                    <nav aria-label="category-items">
+                      <List>
+                        {columnItems.map((item, index) => (
+                          <ListItem
+                            key={item[1]}
+                            divider
+                            sx={{
+                              bgcolor:
+                                pageIndex === index
+                                  ? themeOptions.palette.white.main
+                                  : themeOptions.palette.secondary.light,
+                              color: themeOptions.palette.black.main,
+                            }}
+                          >
+                            {pageIndex === index ? (
+                              <ListItemButton sx={{ pr: 0 }}>
+                                <ListItemText primary={item[0]} />
+                                <ListItemIcon>
+                                  <ArrowForwardIosIcon fontSize="small"></ArrowForwardIosIcon>
+                                </ListItemIcon>
+                              </ListItemButton>
+                            ) : (
+                              <ListItemButton
+                                onClick={handleOnClickList[index]}
+                              >
+                                <ListItemText primary={item[0]} />
+                              </ListItemButton>
+                            )}
+                          </ListItem>
+                        ))}
+                      </List>
+                    </nav>
+                  </Box>
+                  <Stack justifyContent="center" alignItems="center"></Stack>
                 </Box>
-                <Stack justifyContent="center" alignItems="center"></Stack>
-              </Box>
+              </Grid>
+              <Grid item key={1} xs={9}>
+                <Box
+                  sx={{
+                    padding: (2, 2, 2, 2),
+                    backgroundColor: "white",
+                  }}
+                >
+                  {props.widget}
+                </Box>
+              </Grid>
             </Grid>
-            <Grid item key={1} xs={9}>
-              <Box
-                sx={{
-                  padding: (2, 2, 2, 2),
-                  backgroundColor: "white",
-                }}
-              >
-                {props.widget}
-              </Box>
-            </Grid>
-          </Grid>
-        </Container>
-        <Box sx={{ m: 2 }} />
-      </ThemeProvider>
+          </Container>
+          <Box sx={{ m: 2 }} />)
+        </ThemeProvider>
+      )}
       <Footer />
     </RecoilRoot>
   );

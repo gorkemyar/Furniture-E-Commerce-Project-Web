@@ -51,7 +51,7 @@ const Product = () => {
 
   const stateParamValue = useLocation();
   const productId = stateParamValue.state.id;
-  const admin = useRecoilValue(nameState);
+  const admin = getCookie("user_type");
 
   const clickHandler = () => {
     setMakeComment(true);
@@ -84,12 +84,35 @@ const Product = () => {
       count--;
     }
   };
+  ///api/v1/products/{product_id}
+  const deleteProduct = async () => {
+    let headersList = {
+      Authorization: `Bearer ${access}`,
+      "Content-Type": "application/json",
+    };
+
+    await axios
+      .delete(
+        `http://164.92.208.145/api/v1/products/${productId}`,
+
+        {
+          headers: headersList,
+        }
+      )
+      .then((response) => {
+        console.log("response", response);
+        console.log("succesfulll");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     if (isLogged) {
       getData(`http://164.92.208.145/api/v1/users/shopping_cart`)
         .then((res) => {
-          //console.log(res.data);
+          console.log(res.data);
           setProducts(res.data);
           setLoaded3(true);
         })
@@ -113,6 +136,7 @@ const Product = () => {
           console.log(err);
         });
       setProduct(res.data);
+      console.log(res.data);
     });
   }, []);
 
@@ -228,10 +252,12 @@ const Product = () => {
             dec={decCard}
             inc={incCard}
             model={itemTemp.model}
+            discount={itemTemp.discount}
             clickHandler={() => {
               setChecker(true);
               addBasket(itemTemp.id);
             }}
+            delete={deleteProduct}
           ></Description>
         </Stack>
 
@@ -258,7 +284,7 @@ const Product = () => {
                 <List>
                   {comments.map(
                     (card) =>
-                      (admin || card.is_active) && (
+                      (admin == "PRODUCT_MANAGER" || card.is_active) && (
                         <ListItem key={card.id}>
                           <CommentCard
                             name={card.user.full_name}

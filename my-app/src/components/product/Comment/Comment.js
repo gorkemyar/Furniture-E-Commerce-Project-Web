@@ -15,7 +15,7 @@ import { getCookie } from "../../recoils/atoms";
 const access = getCookie("access_token");
 const CommentCard = (props) => {
   const [openComment, setOpenComment] = React.useState(false);
-  const adminState = useRecoilValue(nameState);
+  const adminState = getCookie("user_type");
   const [isButton, setIsButton] = React.useState(false);
   const [littleComment, setLittleComment] = React.useState(props.comment);
 
@@ -107,7 +107,7 @@ const CommentCard = (props) => {
 
           <Divider />
         </Box>
-        {adminState && !props.isVal && (
+        {adminState == "PRODUCT_MANAGER" && !props.isVal && (
           <>
             <Button
               onClick={() => {

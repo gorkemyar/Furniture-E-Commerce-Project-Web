@@ -17,7 +17,7 @@ import { getData } from "./components/recoils/getterFunctions";
 import { RecoilRoot } from "recoil";
 
 export default function App() {
-  console.log(document.cookie);
+  //console.log(document.cookie);
 
   const [cards, setCards] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);

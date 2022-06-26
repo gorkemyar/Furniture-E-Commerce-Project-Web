@@ -31,3 +31,12 @@ it('Discount Item renders correctly', () => {
   
   expect(container).toBeTruthy();
 });
+
+it('Discount Item with empty image', () => {
+  act(() => {
+    render(<BrowserRouter><DiscountItem/></BrowserRouter>, container);
+  });
+    
+  
+  expect(container).toBeTruthy();
+});

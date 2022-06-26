@@ -17,7 +17,8 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import SmallShopCard from "../card/smallShopCard/SmallShopCard";
 import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-import { loggedState } from "../recoils/atoms";
+import { getCookie, loggedState } from "../recoils/atoms";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { nameState } from "../recoils/atoms";
 import {
   RecoilRoot,
@@ -28,50 +29,8 @@ import {
 } from "recoil";
 
 import { Link } from "react-router-dom";
-let c = [
-  {
-    key: 61,
-    imageId: "furn1.jpg",
-    cost: 1200,
-    title: "Sofa",
-    description: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-  },
-  {
-    key: 62,
-    imageId: "furn2.jpg",
-    cost: 120,
-    title: "Sofa",
-    description: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-  },
-  {
-    key: 63,
-    imageId: "furn3.jpg",
-    cost: 1300,
-    title: "Sofa",
-    description: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-  },
-  {
-    key: 64,
-    imageId: "furn4.jpg",
-    cost: 1515,
-    title: "Sofa",
-    description: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-  },
-  {
-    key: 65,
-    imageId: "furn5.jpg",
-    cost: 121.22,
-    title: "Sofa",
-    description: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-  },
-  {
-    key: 66,
-    imageId: "furn6.jpg",
-    cost: 123.67,
-    title: "Sofa",
-    description: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-  },
-];
+const user_type = getCookie("user_type");
+
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -115,18 +74,6 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function PrimarySearchAppBar() {
   const [filter, setFilter] = React.useState(-1);
   //const [search, setSearch] = React.useState("");
-  const RemoveCardHand = (toDelete) => {
-    setFilter(toDelete);
-  };
-  const filterCards = () => {
-    c = c.filter(function (card) {
-      return card.key !== filter;
-    });
-  };
-  React.useEffect(() => {
-    filterCards();
-    setFilter(-1);
-  }, [filter]);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -279,11 +226,12 @@ export default function PrimarySearchAppBar() {
             let tm = false;
             document.cookie = `isLogged=${tm}`;
             console.log(document.cookie);
+            document.cookie = "name=empty";
+            document.cookie = "access_token=empty";
+            document.cookie = "user_type=empty";
             setIsLogged(tm);
             setIsAdmin(tm);
-            document.cookie = "name= empty";
-            document.cookie = "access_token= empty";
-            window.location.reload();
+            window.location.href = "http://localhost:3000";
           }}
         >
           <Typography sx={{ color: "black" }}>Sign Out</Typography>
@@ -359,7 +307,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem onClick={handleProfileMenuOpen}>
-        <Link to="/Dummy" style={{ textDecoration: "none", color: "black" }}>
+        <Link to="/update-favorites" style={{ textDecoration: "none", color: "black" }}>
           <Button
             size="large"
             aria-label="account of current user"
@@ -392,6 +340,18 @@ export default function PrimarySearchAppBar() {
         </Link>
         <p>Basket</p>
       </MenuItem>
+      {user_type == "ADMIN" && (
+        <MenuItem>
+          <Link to="/Basket" style={{ textDecoration: "none", color: "black" }}>
+            <Button size="large" color="inherit">
+              <Badge color="primary">
+                <AdminPanelSettingsIcon />
+              </Badge>
+            </Button>
+          </Link>
+          <p>Admin Panel</p>
+        </MenuItem>
+      )}
     </Menu>
   );
 
@@ -464,7 +424,7 @@ export default function PrimarySearchAppBar() {
             }}
           >
             <Link
-              to="/admin-panel"
+              to="/update-favorites"
               style={{ textDecoration: "none", color: "black" }}
             >
               <Button
@@ -506,6 +466,60 @@ export default function PrimarySearchAppBar() {
               </Button>
             </Link>
           </Box>
+          {user_type == "PRODUCT_MANAGER" && (
+            <Box
+              sx={{
+                fontWeight: "bold",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Link
+                to="/admin-panel"
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                <Button
+                  size="large"
+                  aria-label="show 4 new mails"
+                  color="inherit"
+                >
+                  <Badge color="primary">
+                    <AdminPanelSettingsIcon />
+                  </Badge>
+                  <Box sx={{ fontSize: 8 }}>
+                    <div>&nbsp;</div> Admin Panel
+                  </Box>
+                </Button>
+              </Link>
+            </Box>
+          )}
+          {user_type == "SALES_MANAGER" && (
+            <Box
+              sx={{
+                fontWeight: "bold",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Link
+                to="/salesManager"
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                <Button
+                  size="large"
+                  aria-label="show 4 new mails"
+                  color="inherit"
+                >
+                  <Badge color="primary">
+                    <AdminPanelSettingsIcon />
+                  </Badge>
+                  <Box sx={{ fontSize: 8 }}>
+                    <div>&nbsp;</div> Admin Panel
+                  </Box>
+                </Button>
+              </Link>
+            </Box>
+          )}
         </Box>
         <Box sx={{ display: { xs: "flex", md: "none" } }}>
           <Button

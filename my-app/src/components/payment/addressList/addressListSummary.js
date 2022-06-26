@@ -14,6 +14,7 @@ import { addressId } from "../../recoils/atoms";
 import { getCookie } from "../../recoils/atoms";
 export default function AddressListSummary(props) {
   let tCost = Number(getCookie("totalCost"));
+  let discountTotal = Number(getCookie("discount"));
   const [addressId2, setAddressId] = useRecoilState(addressId);
 
   setAddressId(props.addressId);
@@ -61,7 +62,7 @@ export default function AddressListSummary(props) {
                 fontWeight="bold"
                 sx={{ fontSize: 16 }}
               >
-                {tCost}$
+                {tCost + discountTotal}$
               </Typography>
             </Stack>
             <Box sx={{ m: 1 }} />
@@ -72,7 +73,7 @@ export default function AddressListSummary(props) {
                 color="text.secondary"
                 sx={{ fontSize: 16 }}
               >
-                Delivery Fee
+                Discount Total
               </Typography>
               <Box sx={{ m: 2 }} />
               <Typography
@@ -82,7 +83,7 @@ export default function AddressListSummary(props) {
                 fontWeight="bold"
                 sx={{ fontSize: 16 }}
               >
-                10$
+                -{discountTotal}$
               </Typography>
             </Stack>
             <Divider />
@@ -104,7 +105,7 @@ export default function AddressListSummary(props) {
                 fontWeight="bold"
                 sx={{ fontSize: 16 }}
               >
-                {tCost + 10}$
+                {tCost}$
               </Typography>
             </Stack>
           </Card>
