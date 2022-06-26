@@ -7,5 +7,7 @@ Product managers are capable of adding, removing the products, setting the numbe
 Customers must register to the system. They can view the products, buy the products and pay its price by the credit card. A customer has the following properties: ID, name, tax ID, e-mail address, home address, and password. A customer should enter his/her credit card information to buy a product. Credit card verification and limit issues are out of scope of the project.
 
 To open and discover functionalities of our website, the following commands can be used:
+
 -npm install
+
 -npm start
